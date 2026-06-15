@@ -54,7 +54,6 @@ from routers.security import router as security_router
 from routers.channels import router as channels_router
 from routers.agent_config import router as agent_config_router
 from routers.oauth_gmail import router as oauth_gmail_router
-from routers.twilio_channels import router as twilio_channels_router
 from routers.showcase import router as showcase_router
 
 api_router.include_router(auth_router)
@@ -64,7 +63,6 @@ api_router.include_router(security_router)
 api_router.include_router(channels_router)
 api_router.include_router(agent_config_router)
 api_router.include_router(oauth_gmail_router)
-api_router.include_router(twilio_channels_router)
 api_router.include_router(showcase_router)
 
 # ============ Data Analysis Agent ============
