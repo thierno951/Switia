@@ -675,10 +675,13 @@ async def startup_event():
     if not existing:
         await db.users.insert_one({"email": admin_email, "password_hash": hash_password(admin_password), "name": "Admin", "role": "admin", "created_at": datetime.now(timezone.utc)})
         logger.info(f"Admin user created: {admin_email}")
-    Path("/app/memory").mkdir(exist_ok=True)
+     Path("/app/memory").mkdir(parents=True, exist_ok=True)
+    try:
     with open("/app/memory/test_credentials.md", "w") as f:
-        f.write(f"# Test Credentials\n\n## Admin Account\n- Email: {admin_email}\n- Password: {admin_password}\n- Role: admin\n\n## Auth Endpoints\n- POST /api/auth/register\n- POST /api/auth/login\n- POST /api/auth/logout\n- GET /api/auth/me\n")
-
+            f.write(f"# Test Credentials\n\n## Admin Account\n- Email: {admin_email}\n- Password: {admin_password}\n- Role: admin\n\n## Auth Endpoints\n- POST /api/auth/register\n- POST /api/auth/login\n- POST /api/auth/logout\n- GET /api/auth/me\n")
+    except OSError:
+        # /app/memory is dev-only; ignore in production
+        pass
 @app.on_event("shutdown")
 async def shutdown_db_client():
     from config import client as mongo_client
